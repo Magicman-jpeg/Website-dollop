@@ -71,6 +71,13 @@ npm run watch:css
 
 ## Deployment
 
-GitHub Pages publishes the repository root from the `main` branch. The generated `assets/css/tailwind.css` file is intentionally committed because the Pages deployment does not run the npm build automatically.
+The repository is prepared for GitHub Pages as a plain static site. In the GitHub repository settings:
+
+1. Open **Settings → Branches** and change the default branch to `main`.
+2. Open **Settings → Pages**.
+3. Choose **Deploy from a branch**.
+4. Select `main`, directory `/ (root)`, then save.
+
+The generated `assets/css/tailwind.css` file is intentionally committed because this Pages configuration does not run the npm build automatically. `.nojekyll` keeps publication on the plain static-file path.
 
 The site loads Google Fonts, Remix Icon, GSAP, and ScrollTrigger from public CDNs, so an internet connection is required for the complete visual experience.
