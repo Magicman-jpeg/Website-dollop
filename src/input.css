@@ -1,0 +1,325 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =====================================================================
+   Early Cyber — CRT/VHS texture with classic JRPG-interface structure.
+   Deep navy, cyan signal color, restrained motion, and readable evidence.
+   ===================================================================== */
+
+/* ---- Theme-aware accent tokens ----
+   The primary accent must clear WCAG 4.5:1 against each theme's own background.
+   Light: #0B6E7D on #F5EFEB cream = 5.20:1. Dark: #3FE0F0 on #0E1A2B = 10.93:1.
+   `atomic-orange` / `atomic-teal` in Tailwind resolve to these variables. */
+:root {
+  --accent: #0B6E7D;      /* light-mode primary accent (cyan-teal, darkened for cream) */
+  --accent-2: #4A6B7C;    /* light-mode secondary (steel teal, darkened for contrast) */
+  --on-accent: #F5EFEB;   /* text on the accent fill: cream on dark teal = 5.20:1 */
+}
+.dark {
+  --accent: #3FE0F0;      /* dark-mode primary accent (glowing cyan) */
+  --accent-2: #7FA8BC;    /* dark-mode secondary (lifted steel teal) */
+  --on-accent: #0E1A2B;   /* text on the accent fill: navy on bright cyan = 10.93:1 */
+}
+
+/* Primary call-to-action: accent fill with theme-correct, legible text. */
+.btn-accent { background-color: var(--accent); color: var(--on-accent); }
+.btn-accent:hover { opacity: .92; }
+
+html { -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; }
+.font-mono { font-family: 'Fira Code', monospace; }
+.font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
+.font-grotesk { font-family: 'Space Grotesk', 'Inter', sans-serif; }
+
+/* Fraunces reads best for the hero with its optical / soft axis dialed in */
+.display-hero {
+  font-family: 'Fraunces', ui-serif, Georgia, serif;
+  font-weight: 600;
+  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+
+/* Space Grotesk section headings */
+.heading-grotesk {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 0.98;
+}
+
+/* ---- Scroll reveal: visible by default; JS opts items into animation. ---- */
+.reveal { opacity: 1; transform: none; }
+.reveal.reveal-pending { opacity: 0; transform: translateY(24px); transition: opacity .6s ease-out, transform .6s ease-out; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* ---- Thin confident mid-century rule ---- */
+.hairline { height: 2px; background: currentColor; opacity: .85; }
+.rule-thick { height: 4px; background: currentColor; }
+
+/* ---- Oversized section index plate ("No. 01") ---- */
+.index-plate {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* ---- "Plate" framing — thick bordered block with corner ticks (blueprint/catalog) ---- */
+.plate {
+  position: relative;
+  border: 2px solid var(--edge, #2F4156);
+  border-radius: 4px;
+  background: transparent;
+}
+.dark .plate { --edge: #7FA8BC; }
+.plate::before, .plate::after {
+  content: ""; position: absolute; width: 12px; height: 12px;
+  border: 2px solid var(--tick, #1BB5C9); pointer-events: none;
+}
+/* top-left + bottom-right corner ticks */
+.plate::before { top: -6px; left: -6px; border-right: 0; border-bottom: 0; }
+.plate::after  { bottom: -6px; right: -6px; border-left: 0; border-top: 0; }
+
+/* ---- Spec-sheet row (mid-century catalog listing) ---- */
+.spec-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.9fr) 2.6fr;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  border-top: 2px solid var(--edge, rgba(43,37,32,.15));
+  align-items: start;
+}
+.dark .spec-row { --edge: rgba(237,228,211,.16); }
+.spec-row:last-child { border-bottom: 2px solid var(--edge, rgba(43,37,32,.15)); }
+@media (max-width: 640px) {
+  .spec-row { grid-template-columns: 1fr; gap: .5rem; }
+}
+
+/* ---- Status pill (cert roadmap: earned / in progress / target) ---- */
+.status {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: 'Fira Code', monospace; font-size: .68rem; font-weight: 500;
+  padding: .15rem .6rem; border-radius: 999px; white-space: nowrap;
+  border: 1px solid currentColor;
+}
+.status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.status-earned   { color: var(--accent); }
+.status-target   { color: #5B7486; } /* 4.6:1 on cream; dark override below */
+.dark .status-target { color: #A9CBE0; }
+
+/* ---- Project outcome line (capability callout) ---- */
+.outcome {
+  display: flex; align-items: center; gap: .5rem;
+  font-family: 'Space Grotesk', 'Inter', sans-serif; font-weight: 600; font-size: .82rem;
+  padding-top: .5rem;
+}
+.outcome i { color: var(--accent); }
+
+/* ---- Grid: faint cyan scan-grid on the hero/contact ---- */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(27,181,201,0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27,181,201,0.07) 1px, transparent 1px);
+  background-size: 54px 54px;
+}
+
+/* ---- Signature aurora, recolored to CRT cyan + steel teal ---- */
+.aurora { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.aurora::before, .aurora::after {
+  content: ""; position: absolute; width: 55vw; height: 55vw; border-radius: 50%;
+  filter: blur(90px); opacity: .45; mix-blend-mode: multiply;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+.aurora::before { top: -15%; left: -10%; background: radial-gradient(circle at 30% 30%, #1BB5C9, transparent 62%); }
+.aurora::after  { bottom: -20%; right: -8%; background: radial-gradient(circle at 70% 70%, #567C8D, transparent 62%); animation-delay: -10s; }
+/* Dark mode: screen blend so the glow lifts off the navy base */
+.dark .aurora::before { background: radial-gradient(circle at 30% 30%, #3FE0F0, transparent 62%); mix-blend-mode: screen; opacity: .4; }
+.dark .aurora::after  { background: radial-gradient(circle at 70% 70%, #2F4156, transparent 60%); mix-blend-mode: screen; opacity: .5; }
+@keyframes drift {
+  0%   { transform: translate(0,0) scale(1); }
+  50%  { transform: translate(4%, 3%) scale(1.08); }
+  100% { transform: translate(-3%, -2%) scale(0.96); }
+}
+
+/* ---- CRT scanlines + faint VHS flicker (whole page) ---- */
+.grain::after {
+  content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  /* horizontal scanlines */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.05) 0px,
+    rgba(0,0,0,0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: .5;
+  animation: vhs-flicker 5s steps(60) infinite;
+}
+.dark .grain::after {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(91,225,235,0.045) 0px,
+    rgba(91,225,235,0.045) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: .6;
+}
+@keyframes vhs-flicker {
+  0%, 97%, 100% { opacity: .55; }
+  98% { opacity: .4; }
+  99% { opacity: .68; }
+}
+
+/* ---- Starburst recolored to CRT cyan (original, pure CSS) ---- */
+.starburst {
+  width: 100%; height: 100%; border-radius: 50%;
+  background:
+    repeating-conic-gradient(
+      from 0deg,
+      #1BB5C9 0deg 6deg,
+      transparent 6deg 18deg
+    );
+  -webkit-mask: radial-gradient(circle, transparent 24%, #000 26%, #000 46%, transparent 48%);
+          mask: radial-gradient(circle, transparent 24%, #000 26%, #000 46%, transparent 48%);
+  opacity: .9;
+}
+.dark .starburst { background: repeating-conic-gradient(from 0deg, #3FE0F0 0deg 6deg, transparent 6deg 18deg); }
+
+/* ---- CRT / JRPG-menu panel — glossy navy glass with a cyan glow ---- */
+.cyber-panel {
+  position: relative;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255,255,255,.55), rgba(200,217,230,.3));
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid rgba(27,181,201,.4);
+  box-shadow: 0 10px 40px rgba(47,65,86,.18);
+  overflow: hidden;
+}
+.cyber-panel::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .55;
+  background: linear-gradient(130deg,
+    rgba(91,225,235,.35) 0%,
+    rgba(86,124,141,.22) 45%,
+    rgba(200,217,230,.28) 100%);
+  mix-blend-mode: screen;
+}
+.dark .cyber-panel {
+  background: linear-gradient(135deg, rgba(47,65,86,.6), rgba(14,26,43,.55));
+  border-color: rgba(63,224,240,.35);
+  box-shadow: 0 0 0 1px rgba(63,224,240,.12), 0 10px 44px rgba(0,0,0,.5), inset 0 0 30px rgba(63,224,240,.06);
+}
+
+/* ---- Glass card tilt — reacts to pointer via JS custom props ---- */
+.tilt { transform: perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px)) !important; transition: transform .25s ease-out; transform-style: preserve-3d; }
+
+/* ---- Selection + focus ---- */
+::selection { background: var(--accent); color: #F5EFEB; }
+.dark ::selection { color: #0E1A2B; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+/* ---- ASCII art (animated + static), CRT-cyber styled ---- */
+.ascii {
+  font-family: 'Fira Code', ui-monospace, monospace;
+  line-height: 1.05;
+  white-space: pre;
+  letter-spacing: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 0;
+}
+
+/* ---- Per-section ASCII corner accents (static, decorative) ---- */
+.ascii-corner {
+  position: absolute; pointer-events: none; z-index: 0;
+  font-family: 'Fira Code', ui-monospace, monospace;
+  white-space: pre; font-size: 10px; line-height: 1.15;
+  color: #1BB5C9; opacity: .12;
+}
+.dark .ascii-corner { color: #3FE0F0; opacity: .14; }
+/* Animated wave canvas-of-text in the hero */
+.ascii-wave {
+  color: #1BB5C9;
+  font-size: clamp(5px, 1vw, 9px);
+  text-shadow: 0 0 6px rgba(27,181,201,.25);
+  overflow: hidden;
+}
+.dark .ascii-wave { color: #3FE0F0; text-shadow: 0 0 8px rgba(63,224,240,.35); }
+
+/* Static ASCII accents (footer sign-off, dividers) */
+.ascii-static { color: #567C8D; font-size: clamp(6px, 1.1vw, 11px); }
+.dark .ascii-static { color: #7FA8BC; }
+.ascii-static .glow { color: #1BB5C9; }
+.dark .ascii-static .glow { color: #3FE0F0; }
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .starburst { animation: none !important; }
+  .grain::after { animation: none !important; }
+}
+
+/* ---- Fixed ASCII parallax stage ---- */
+main { isolation: isolate; }
+main > section { position: relative; z-index: 1; }
+.ascii-art-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  contain: layout paint style;
+}
+.ascii-art-field { position: absolute; inset: 0; }
+.ascii-art-panel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  mix-blend-mode: multiply;
+  will-change: transform, opacity;
+}
+.ascii-art-panel--portrait { opacity: .11; }
+.dark .ascii-art-panel { mix-blend-mode: screen; }
+.dark .ascii-art-panel--portrait { opacity: .11; }
+.ascii-art {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max-content;
+  max-width: none;
+  margin: 0;
+  font-family: 'Noto Sans Symbols 2', 'Segoe UI Symbol', sans-serif;
+  font-size: 10px;
+  line-height: 1.18;
+  white-space: pre;
+  color: #2F4156;
+  transform-origin: center;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 78%);
+          mask-image: radial-gradient(ellipse at center, #000 40%, transparent 78%);
+}
+.dark .ascii-art {
+  color: #3FE0F0;
+  text-shadow: 0 0 10px rgba(63,224,240,.16);
+}
+.ascii-art-panel--portrait .ascii-art { left: 72%; transform: translate(-50%, -50%) scale(2.35); }
+.ascii-art-panel--wide .ascii-art { left: 38%; transform: translate(-50%, -50%) scale(1.4); }
+.ascii-art-panel--feature .ascii-art { left: 68%; transform: translate(-50%, -50%) scale(1.08); }
+
+@media (max-width: 767px) {
+  .ascii-art-panel--portrait { opacity: .09; }
+  .ascii-art-panel--portrait .ascii-art { left: 72%; transform: translate(-50%, -50%) scale(1.8); }
+  .ascii-art-panel--wide .ascii-art { left: 34%; transform: translate(-50%, -50%) scale(1.05); }
+  .ascii-art-panel--feature .ascii-art { left: 68%; transform: translate(-50%, -50%) scale(.8); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ascii-art-panel { will-change: auto; }
+}
