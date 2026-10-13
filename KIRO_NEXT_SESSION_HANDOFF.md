@@ -430,3 +430,16 @@ These are documented rather than silently treated as completed:
 - Normalize `Cloud Solution Cadet` versus `Cloud Cadet` only after the user confirms the official wording.
 - Legacy Tailwind token names such as `atomic-orange` remain in markup even though the value is cyan. They are implementation names, not current visual semantics; rename only as a deliberate repository-wide refactor.
 - Run a real browser review before claiming visual or runtime accessibility is complete.
+
+## Required repository-owner actions
+
+The portfolio code is merged into `main`, but the Kiro GitHub app was denied permission to modify repository settings (HTTP 403). Complete these once in GitHub:
+
+1. Open `Magicman-jpeg/Website-dollop` → **Settings → Branches**.
+2. Change the default branch from `feat/migrate-resume` to `main`.
+3. Open **Settings → Pages**.
+4. Select **Deploy from a branch** → `main` → `/ (root)` → Save.
+5. After GitHub Pages is live, delete the remote `feat/migrate-resume` branch.
+6. Verify `https://magicman-jpeg.github.io/Website-dollop/`, the CV download, CSS/JS assets, both themes, mobile navigation, reduced motion, and external links.
+
+Do not claim that Pages is live until the published URL returns the migrated site. The feature branch remains only because GitHub does not allow deletion of the current default branch.
