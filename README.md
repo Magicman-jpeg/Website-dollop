@@ -9,6 +9,7 @@ A responsive personal portfolio highlighting my Information Technology education
 ## Features
 
 - Responsive, mobile-friendly layout
+- **Page-turn navigation** on large screens: each section turns like a page (wheel, arrow/page keys, swipe, nav links, or the side pager), with a 3D curl, a page indicator, and hash-synced deep links — progressively enhanced, so it falls back to normal scrolling on touch/small screens, with reduced motion, or without JavaScript
 - Light and dark themes with saved user preference
 - Fixed ASCII-art background with scroll-based parallax
 - Animated project cards, section reveals, and typing effect
@@ -36,7 +37,8 @@ A responsive personal portfolio highlighting my Information Technology education
 │   ├── docs/
 │   │   └── jay-arevalo-cv.pdf
 │   └── js/
-│       └── main.js            # Theme, navigation, and animation behavior
+│       ├── main.js            # Theme, navigation, and animation behavior
+│       └── pageturn.js        # Page-turn navigation (progressive enhancement)
 ├── src/
 │   └── input.css              # Tailwind and custom CSS source
 ├── index.html                 # Website entry point

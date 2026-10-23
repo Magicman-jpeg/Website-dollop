@@ -79,6 +79,9 @@
     </div>
   </header>
 
+  <!-- Page-turn stage: wraps the paged content so JS can apply 3D perspective.
+       Without JS this is an ordinary block and the site scrolls normally. -->
+  <div id="page-stage">
   <main class="relative z-10">
     <!-- ============ HERO — asymmetric, big type, offset cyber panel ============ -->
     <section id="hero" class="relative pt-28 pb-20 sm:pt-32 sm:pb-24 grid-bg overflow-hidden">
@@ -681,8 +684,20 @@
       </p>
     </div>
   </footer>
+  </div><!-- /#page-stage -->
+
+  <!-- ============ PAGE-TURN UI (progressive enhancement; hidden until JS) ============ -->
+  <!-- Vertical page indicator. Buttons are real controls so keyboard + AT work. -->
+  <nav id="page-pager" aria-label="Page navigation" hidden></nav>
+  <!-- Transient oversized page number shown during a turn (decorative). -->
+  <div class="pageturn-count" aria-hidden="true"></div>
+  <!-- Sweeping fold sheen during a turn (decorative). -->
+  <div class="pageturn-fold" aria-hidden="true"></div>
+  <!-- Movement hint for first-time visitors. -->
+  <div id="page-hint" aria-hidden="true"><i class="ri-arrow-up-down-line"></i> scroll or use ↑ ↓ to turn the page</div>
 
   <!-- ============ SCRIPTS ============ -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/pageturn.js"></script>
 </body>
 </html>

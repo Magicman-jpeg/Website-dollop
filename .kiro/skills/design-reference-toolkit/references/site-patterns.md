@@ -1,6 +1,12 @@
 # Public-Site Pattern Library
 
-Accessed: 2026-10-06. Public sites can change; re-check the live page before applying a pattern. These notes are original summaries of observable patterns. They are not copied style guides, markup, assets, palettes, or compositions.
+Accessed: 2026-10-06. Re-checked: 2026-10-23. Public sites can change; re-check the live page before applying a pattern. These notes are original summaries of observable patterns. They are not copied style guides, markup, assets, palettes, or compositions.
+
+**2026-10-23 re-check summary.** Live re-inspection confirmed the patterns below are still accurate at the recorded URLs:
+- **James Magpantay** — still proof-first: role/positioning, education, projects-with-outcomes, certifications roadmap, and a professional summary, in that order.
+- **Thomas Monavon** — still one-project-at-a-time with explicit scroll-driven open/close transitions ("scroll up/down to close", a `00%` progress counter per project). Strongest reference for a deliberate, progress-aware page transition.
+- **Cyd Stumpel** — still an editorial, GSAP-driven identity that uses an explicit "turn card" flip interaction and foregrounds accessibility. Reinforces that a literal turn gesture can be tasteful *and* accessible.
+- **Exo Ape** — redirects to `www.exoape.com`; cinematic, media-led, sparse navigation (unchanged in principle).
 
 ## Personal portfolio patterns
 
@@ -105,6 +111,27 @@ Source: [gradient-labs.ai](https://gradient-labs.ai/)
 | Technical work is hard to explain | Gradient Labs: actors/handoffs | REA: narrow claims + evidence |
 
 Use one primary idea and at most two supporting ideas per change. More sources do not automatically create a better design.
+
+## Applied synthesis: page-turn navigation (2026-10-23)
+
+The portfolio replaced its single long vertical scroll with a **page-turn navigation** model, added as progressive enhancement (`assets/js/pageturn.js`, styles appended to `src/input.css`). This is a worked example of the "synthesize; do not clone" rule.
+
+**Problem borrowed for:** help a visitor move through the portfolio one self-contained "page" at a time instead of an undifferentiated scroll, giving each section a clear beginning and end.
+
+**References synthesized (principles only):**
+- *Thomas Monavon* — one section fully owns the viewport; movement is a deliberate, progress-aware transition rather than free scroll. ([thomasmonavon.com](https://www.thomasmonavon.com/), re-checked 2026-10-23)
+- *Cyd Stumpel* — a literal "turn" gesture can be expressive and still accessible when it is built as enhancement over usable content. ([cydstumpel.nl](https://cydstumpel.nl/), re-checked 2026-10-23)
+- *Exo Ape* — a single oversized transition number marks the moment of change without extra chrome. ([exoape.com](https://www.exoape.com/), re-checked 2026-10-23)
+
+**What was implemented (observed in this repo):**
+- Each existing `<section>` / the `#contact` footer becomes a full-viewport page; document order, headings, the skip link, and deep links (`#about`, …) are preserved.
+- A 3D left-spine "page curl" turn (forward and backward), a sweeping fold sheen, a vertical pager with numbered labels, and a transient oversized page number.
+- Forward/back via wheel, Arrow/Page/Home/End keys, swipe, in-page anchor links, and pager buttons; the URL hash stays in sync for shareable links.
+- Inner-scroll-aware wheel handling so a tall page scrolls internally before it turns.
+
+**What was deliberately NOT copied:** no markup, CSS, JavaScript, assets, copy, palette, type pairing, transition choreography, progress-counter treatment, or signature interaction from any reference site. The curl geometry, timing curve, pager vocabulary (reusing the repo's own `index-plate`/mono tokens), and fold effect are original to this repository.
+
+**Fallbacks (verification, 2026-10-23, headless Chromium state-machine test):** the enhancement engages only at `min-width: 1024px` with a fine pointer and no `prefers-reduced-motion`. Confirmed: engages on a 1440px viewport (7 pages, 7 pager buttons), turns forward/back by keyboard, turns via nav-link click with hash sync, and fully disengages to normal document scroll when resized to a 390px viewport (`body` overflow returns to `visible`, pager hidden). Reduced motion disables the 3D/transform choreography via CSS. No-JS leaves the plain scrollable document untouched.
 
 ## Source and licensing note
 
